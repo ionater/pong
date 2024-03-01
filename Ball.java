@@ -3,6 +3,7 @@ public class Ball {
 	//declare variables
 	private int x, y, cx, cy, speed, size;
 	private Color color;
+	static final int MAX_SPEED = 8;
 	
 	//ball constructor
 	public Ball(int x, int y, int cx, int cy, int speed, Color color, int size) {
@@ -32,13 +33,22 @@ public class Ball {
 		else if (y < top) {
 			reverseY();
 		}
-		if(x < 0) {
-			reverseX();
-		}
-		else if (x > 640 - size) {
-			reverseX();
-		}
 	}
+	
+	public void increaseSpeed(){
+        //make sure current speed is less than max speed before incrementing
+        if(speed < MAX_SPEED){
+            //increase the speed by one
+            speed ++;
+            
+            //assign speed
+            cx = (cx / Math.abs(cx)*speed);
+            cy = (cy / Math.abs(cy)*speed);
+
+        }
+
+    }
+	
 	public void reverseX() {
 		cx *= -1;
 	}
@@ -51,4 +61,22 @@ public class Ball {
 	public int getY() {
 		return y;
 	}
+	
+	public void setX(int i) {
+		x = i;
+	}
+	public void setY(int i ) {
+		y = i;
+	}
+	public void setSpeed(int i) {
+		speed = i;
+	}
+	public void setCx(int i ) {
+		cx = i;
+	}
+	public void setCy(int i ) {
+		cy = i;
+	}
+	
+	
 }
