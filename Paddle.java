@@ -10,6 +10,10 @@ public class Paddle {
 		this.speed = speed;
 		this.color = color;
 	}
+	
+	
+	
+	
 	public void paint(Graphics g) {
 		g.setColor(color);
 		g.fillRect(x, y, PADDLE_WIDTH, height);

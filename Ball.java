@@ -1,9 +1,16 @@
 import java.awt.*;
+import java.io.File;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 public class Ball {
 	//declare variables
 	private int x, y, cx, cy, speed, size;
 	private Color color;
 	static final int MAX_SPEED = 8;
+	
+	
 	
 	//ball constructor
 	public Ball(int x, int y, int cx, int cy, int speed, Color color, int size) {
@@ -15,6 +22,24 @@ public class Ball {
 		this.color = color;
 		this.size = size;
 	}
+	
+	public void playWallSFX()
+	{
+		try
+		{
+		AudioInputStream audioInput = AudioSystem.getAudioInputStream(new File("WallHit.wav"));
+		Clip Paddle = AudioSystem.getClip();
+		Paddle.open(audioInput);
+		Paddle.start();
+		}
+		catch (Exception e)
+		{
+			
+			System.out.println(e);
+			
+		}
+	}
+	
 	public void paint(Graphics g) {
 		//set brush color to ball color
 		g.setColor(color);
@@ -28,10 +53,12 @@ public class Ball {
 	}
 	public void bounceOffEdges(int top, int bottom) {
 		if(y > bottom - size) {
-			reverseY();
+			reverseY(); 
+			playWallSFX();
 		}
 		else if (y < top) {
 			reverseY();
+			playWallSFX();
 		}
 	}
 	
