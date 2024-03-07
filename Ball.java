@@ -8,7 +8,7 @@ public class Ball {
 	//declare variables
 	private int x, y, cx, cy, speed, size;
 	private Color color;
-	static final int MAX_SPEED = 8;
+	static final int MAX_SPEED = 20;
 	
 	
 	
@@ -66,7 +66,7 @@ public class Ball {
         //make sure current speed is less than max speed before incrementing
         if(speed < MAX_SPEED){
             //increase the speed by one
-            speed ++;
+            speed+=2;
             
             //assign speed
             cx = (cx / Math.abs(cx)*speed);

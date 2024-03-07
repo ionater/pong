@@ -20,7 +20,7 @@ public class PongGame extends JPanel implements MouseMotionListener {
 		gameBall = new Ball(300, 200, 3, 3, 3, Color.YELLOW, 10);
 		userPaddle = new Paddle(10, 200, 75, 3, Color.BLUE);
 		pcPaddle = new Paddle(610, 200, 75, 3, Color.RED);
-		userScore = 0; pcScore = 4;
+		userScore = 0; pcScore = 0;
 		userMouseY = 0;
 		
 		//listen for motion events on this object
@@ -83,11 +83,12 @@ public class PongGame extends JPanel implements MouseMotionListener {
 	
 	public void paintComponent(Graphics g) {
 		//draw background and set colors
+		if(gameOver == false)
+		{
+		
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 		
-		if (gameOver == false)
-		{
 		//draw ball
 		gameBall.paint(g);
 		
@@ -100,35 +101,32 @@ public class PongGame extends JPanel implements MouseMotionListener {
 		//the drawString method needs a String to print, and a location to print it at.
 		g.drawString("Score - User [ " + userScore + " ]   PC [ " + pcScore + " ]", 230, 20   );
 		}
-		else
+		
+		if (gameOver == true)
 		{
+			g.setColor(Color.BLACK);
+			g.fillRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+			
 			String s = "Player1";
-			if (pcScore == 5)
+			if (pcScore == 3)
 				s = "PC";
-			
-			g.drawString(s + "WINS" , 230, 20   );
-			
-			//pause before exiting program
-		    try{
-		    	g.drawString(s + "WINS" , 230, 20   );
-		        Thread.sleep(10000);
-		        
-		    } //catch error if Thread.sleep is interrupted.
-		    catch(Exception e){
-		        e.printStackTrace();
-		    }
-			
-			System.exit(0);
+			g.setColor(Color.WHITE);
+			g.drawString(s + " WINS" , 240, 240   );
 		}
 		
-	}
+		}
+		
+	
 	public void gameLogic() {
+		if(gameOver == false)
+		{
 		gameBall.moveBall();
 		gameBall.bounceOffEdges(0, WINDOW_HEIGHT);
 		userPaddle.moveTowards(userMouseY);
 		//userPaddle.moveTowards(gameBall.getY());
 		pcPaddle.moveTowards(gameBall.getY());
 		if(pcPaddle.checkCollision(gameBall) || userPaddle.checkCollision(gameBall)) {
+			bounceCount++;
 			playPaddleSFX();
 			gameBall.reverseX();
 		}
@@ -151,7 +149,7 @@ public class PongGame extends JPanel implements MouseMotionListener {
 		    reset();
 		}
 		
-		
+		}
 	}
 	@Override
 	public void mouseDragged(MouseEvent e ) {
@@ -176,7 +174,7 @@ public class PongGame extends JPanel implements MouseMotionListener {
 	        e.printStackTrace();
 	    }
 		
-	    if ( userScore == 5 ||  pcScore == 5 )
+	    if ( userScore == 3 ||  pcScore == 3 )
 	    {
 	 
 	    	gameOver = true;
